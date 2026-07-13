@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEVA AUTOPILOTS Software Reviewer Checklist</title>
+<style>
+  :root{
+    --navy:#0d2159;
+    --navy-light:#e8f0fb;
+    --green:#1e7d34;
+    --red:#c0392b;
+    --grey-border:#b9c2d0;
+    --section-green:#e6f0e0;
+    --pass-bg:#1e7d34;
+    --fail-bg:#c0392b;
+    --na-bg:#5a6472;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Arial,Helvetica,sans-serif;
+    background:#f2f4f8;
+    margin:0;
+    padding:24px;
+    color:#1a1a1a;
+  }
+  .wrap{
+    max-width:1300px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--grey-border);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 18px rgba(13,33,89,0.12);
+  }
+  .title-bar{
+    background:var(--navy);
+    color:#fff;
+    text-align:center;
+    padding:16px 10px;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:0.5px;
+  }
+  .subtitle-bar{
+    background:var(--navy-light);
+    color:var(--navy);
+    text-align:center;
+    padding:12px 10px;
+    font-size:18px;
+    font-weight:700;
+  }
+  .section-header{
+    background:var(--navy-light);
+    padding:8px 16px;
+    font-weight:700;
+    font-size:15px;
+    color:var(--navy);
+    border-top:1px solid var(--grey-border);
+    border-bottom:1px solid var(--grey-border);
+  }
+  .section-header.first{
+    border-top:none;
+  }
+  .section-header.section-header-green{
+    background:var(--section-green);
+    color:#26401e;
+  }
+  .subgroup-row td{
+    background:#fdf3ea;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.4px;
+    color:#8a4a10;
+    padding:6px 10px;
+    border-left:4px solid #c0722c;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+  }
+  thead th{
+    background:var(--navy);
+    color:#fff;
+    font-size:13px;
+    padding:10px 8px;
+    text-align:center;
+    border:1px solid #16306e;
+  }
+  tbody td{
+    border:1px solid var(--grey-border);
+    padding:12px 10px;
+    vertical-align:middle;
+    font-size:14px;
+  }
+  .col-item{
+    text-align:left;
+    line-height:1.5;
+    width:46%;
+  }
+  .col-status{
+    text-align:center;
+    width:22%;
+  }
+  .col-comments{
+    width:24%;
+  }
+  .status-checks{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+  }
+  .status-check{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    cursor:pointer;
+    user-select:none;
+    position:relative;
+  }
+  .status-check .check-label{
+    font-size:11px;
+    font-weight:700;
+    color:#5a6472;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+  }
+  .status-check input{
+    position:absolute;
+    opacity:0;
+    width:0;
+    height:0;
+  }
+  .status-check .check-box{
+    width:26px;
+    height:26px;
+    border:2px solid var(--grey-border);
+    border-radius:6px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    font-weight:900;
+    line-height:1;
+    transition:all 0.12s ease;
+  }
+  .status-check .check-box::after{
+    content:"";
+    opacity:0;
+  }
+  .status-check:hover .check-box{
+    border-color:#8a93a6;
+  }
+  .status-check.pass .check-box::after{content:"\2713";color:var(--pass-bg);}
+  .status-check.fail .check-box::after{content:"\2715";color:var(--fail-bg);}
+  .status-check.na .check-box::after{content:"\2715";color:var(--na-bg);}
+
+  .status-check.pass input:checked ~ .check-box{border-color:var(--pass-bg);background:#eaf6ec;}
+  .status-check.fail input:checked ~ .check-box{border-color:var(--fail-bg);background:#fbeceb;}
+  .status-check.na input:checked ~ .check-box{border-color:var(--na-bg);background:#eef0f2;}
+  .status-check input:checked ~ .check-box::after{opacity:1;}
+  .comments-input{
+    width:100%;
+    min-height:44px;
+    resize:vertical;
+    border:1px solid var(--grey-border);
+    border-radius:5px;
+    padding:6px 8px;
+    font-family:inherit;
+    font-size:13px;
+    background:#fffef6;
+  }
+  .comments-input:focus{
+    outline:2px solid #4a76d4;
+    outline-offset:1px;
+  }
+  .readonly-cell{
+    background:#fafbfd;
+  }
+
+  /* Legend */
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    align-items:center;
+    padding:14px 18px;
+    border-top:1px solid var(--grey-border);
+    font-size:14px;
+  }
+  .legend b.pass-text{color:var(--green);}
+  .legend b.fail-text{color:var(--red);}
+
+  /* Bottom info table */
+  .info-table{
+    border-top:2px solid var(--navy);
+  }
+  .info-table table{
+    border-collapse:collapse;
+  }
+  .info-table td{
+    border:1px solid var(--grey-border);
+    padding:10px 12px;
+    font-size:14px;
+  }
+  .info-label{
+    font-weight:700;
+    color:var(--navy);
+    background:#f7f9fc;
+    width:14%;
+    white-space:nowrap;
+  }
+  .info-input{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:14px;
+    padding:4px;
+  }
+  .info-input:focus{
+    outline:2px solid #4a76d4;
+    outline-offset:1px;
+    background:#fff;
+    border-radius:3px;
+  }
+  .reviewer-label-cell{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .reviewers-container{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:6px;
+  }
+  .reviewer-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .reviewer-row .info-input{
+    flex:1;
+  }
+  .remove-reviewer-btn{
+    border:1px solid var(--grey-border);
+    background:#fff;
+    color:#8a2020;
+    border-radius:5px;
+    width:24px;
+    height:24px;
+    line-height:1;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    flex-shrink:0;
+    padding:0;
+  }
+  .remove-reviewer-btn:hover{
+    background:#fdecea;
+    border-color:#c0392b;
+  }
+  .add-reviewer-btn{
+    border:1.5px dashed var(--grey-border);
+    background:#f7f9fc;
+    color:var(--navy);
+    border-radius:5px;
+    padding:4px 10px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .add-reviewer-btn:hover{
+    background:var(--navy-light);
+    border-color:var(--navy);
+  }
+  .overall-cell{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .overall-btn{
+    border:1.5px solid var(--grey-border);
+    background:#fff;
+    border-radius:6px;
+    padding:6px 14px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .overall-btn.active.approved{background:var(--pass-bg);border-color:var(--pass-bg);color:#fff;}
+  .overall-btn.active.changes{background:var(--fail-bg);border-color:var(--fail-bg);color:#fff;}
+  .remarks-row textarea{
+    width:100%;
+    min-height:50px;
+    border:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:14px;
+    resize:vertical;
+    padding:4px;
+  }
+  .remarks-row textarea:focus{
+    outline:2px solid #4a76d4;
+    outline-offset:1px;
+    background:#fff;
+    border-radius:3px;
+  }
+
+  .dev-share-panel{
+    margin:0 18px 4px;
+    padding:12px 14px;
+    background:#f7f9fc;
+    border:1px dashed var(--grey-border);
+    border-radius:8px;
+  }
+  .dev-share-note{
+    margin:0 0 8px;
+    font-size:12px;
+    color:#5a6472;
+  }
+  .dev-share-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .dev-share-row .dev-share-link{
+    flex:1;
+    min-width:200px;
+    border:1px solid var(--grey-border);
+    background:#fff;
+    border-radius:5px;
+  }
+  .dev-share-label{
+    font-size:12px;
+    font-weight:700;
+    color:var(--navy);
+    white-space:nowrap;
+  }
+  .locked-field{
+    background:#eef0f2 !important;
+    color:#5a6472;
+    cursor:not-allowed;
+  }
+
+  .footer-note{
+    text-align:center;
+    padding:14px;
+    font-size:12px;
+    color:#7a8291;
+  }
+
+  .item-number{
+    font-weight:700;
+    color:var(--navy);
+    margin-right:4px;
+  }
+
+  .export-bar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    padding:16px 18px 4px;
+    flex-wrap:wrap;
+  }
+  .export-filename-input{
+    width:auto;
+    max-width:260px;
+    border:1px solid var(--grey-border);
+    background:#fff;
+    border-radius:5px;
+    text-align:center;
+  }
+  .export-btn{
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    padding:10px 22px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .export-btn:hover{
+    background:#16306e;
+  }
+
+  .wrap input:disabled,
+  .wrap textarea:disabled,
+  .wrap button:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+  }
+  .status-check:has(input:disabled){
+    cursor:not-allowed;
+    opacity:0.55;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .wrap{box-shadow:none;border:none;max-width:100%;}
+    .export-bar, .add-reviewer-btn, .remove-reviewer-btn, .footer-note, .dev-share-panel{display:none !important;}
+    .status-check{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .status-check:not(:has(input:checked)){display:none !important;}
+    .comments-input, .info-input, .remarks-row textarea{border:1px solid #999 !important;background:#fff !important;}
+    table, .wrap{page-break-inside:avoid;}
+
+    /* Hide comment boxes (and their "Comments:" label) when left empty */
+    .comments-input:placeholder-shown{display:none !important;}
+    .col-comments:has(.comments-input:placeholder-shown)::before{display:none !important;}
+    .remarks-row:has(textarea:placeholder-shown){display:none !important;}
+  }
+
+  @media (max-width:800px){
+    thead{display:none;}
+    tbody td{display:block;width:100%!important;border:none;border-bottom:1px solid var(--grey-border);}
+    tbody tr{display:block;border-bottom:3px solid var(--navy);}
+    .col-status::before{content:"Status:";display:block;font-weight:700;color:var(--navy);margin-bottom:6px;}
+    .col-comments::before{content:"Comments:";display:block;font-weight:700;color:var(--navy);margin-bottom:6px;}
+    .info-table td{display:block;width:100%!important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="title-bar">MEVA AUTOPILOTS SOFTWARE REVIEWER CHECKLIST</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="col-item" style="text-align:left;">CHECKLIST ITEM</th>
+        <th class="col-status">STATUS</th>
+        <th class="col-comments">COMMENTS</th>
+      </tr>
+    </thead>
+    <tbody id="section1-body">
+      <tr data-row-id="DC-01" data-number="1">
+        <td class="col-item readonly-cell"><span class="item-number">1.</span> Verify that all compiler, build, and static analysis warnings have been <strong>resolved, resulting in zero outstanding warnings</strong>. If any warning cannot be resolved, ensure that an <strong>appropriate technical justification is documented in the source code and approved in accordance with the project coding guidelines</strong>.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="DC-02" data-number="2">
+        <td class="col-item readonly-cell"><span class="item-number">2.</span> Verify that <strong>unit test (UT) coverage meets the required project coverage target</strong>, and adequately covers all implemented requirements, boundary conditions, and error handling scenarios.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="DC-03" data-number="3">
+        <td class="col-item readonly-cell"><span class="item-number">3.</span> Verify that <strong>Software-in-the-Loop (SIL) and/or Hardware-in-the-Loop (HIL) test reports</strong>, where applicable, have been reviewed, all planned test cases have passed, and any failures or deviations are appropriately documented and resolved.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="DC-04" data-number="4">
+        <td class="col-item readonly-cell"><span class="item-number">4.</span> Verify that <strong>sanity testing</strong> has been completed successfully, the results have been reviewed, and no unresolved issues remain that could impact the implemented functionality.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="SC-01" data-number="5">
+        <td class="col-item readonly-cell"><span class="item-number">5.</span> Verify that all configured signal boundary values (minimum/maximum) match the approved requirement and that out-of-range values are handled according to Requirement <strong>x40000002E4AA176</strong> (Range Check &rarr; Signal set to <strong>NA</strong>).</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="SC-02" data-number="6">
+        <td class="col-item readonly-cell"><span class="item-number">6.</span> Verify that all implicit and explicit data type conversions are safe, compliant with the project coding guidelines, and free from compiler/static analysis warnings, truncation, overflow, precision loss, and unintended sign conversion.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="SC-03" data-number="7">
+        <td class="col-item readonly-cell"><span class="item-number">7.</span> Verify that the Signal Alive timeout is configured to the required value of <strong>30 seconds</strong> during signal/port configuration, in accordance with the approved requirement/specification, to prevent retention of stale or previous output signal values due to missing or incorrect timeout configuration.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+      <tr data-row-id="SL-01" data-number="8">
+        <td class="col-item readonly-cell"><span class="item-number">8.</span> Verify that all configured signal data types match the approved requirement/specification and are compatible with the associated interfaces and CRC/E2E mechanisms to prevent signal transformation errors and unexpected functional behavior.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="legend">
+    <strong>Legend:</strong>
+    <span><b class="pass-text">Pass</b> &ndash; Requirement is satisfied</span>
+    <span><b class="fail-text">Fail</b> &ndash; Issue found / Not satisfied</span>
+    <span><b>N/A</b> &ndash; Not applicable</span>
+  </div>
+
+  <div class="info-table">
+    <table style="width:100%;">
+      <tr>
+        <td class="info-label reviewer-label-cell">
+          <span>REVIEWER(S):</span>
+          <button type="button" id="add-reviewer-btn" class="add-reviewer-btn">+ Add</button>
+        </td>
+        <td>
+          <div id="reviewers-container" class="reviewers-container">
+            <div class="reviewer-row">
+              <input type="email" class="info-input reviewer-input" placeholder="Enter email">
+            </div>
+          </div>
+        </td>
+        <td class="info-label">ARTIFACTORY LINK:</td>
+        <td><input type="text" class="info-input" id="artifactorylink" placeholder="Paste link"></td>
+        <td class="info-label">PULL REQUEST ID:</td>
+        <td><input type="text" class="info-input" id="pullrequestid" placeholder="Enter PR ID"></td>
+      </tr>
+      <tr>
+        <td class="info-label">REVIEW DATE:</td>
+        <td><input type="date" class="info-input" id="reviewdate"></td>
+        <td class="info-label">REQUIREMENT ID:</td>
+        <td><input type="text" class="info-input" id="requirementid" placeholder="Enter requirement ID"></td>
+      </tr>
+      <tr>
+        <td class="info-label">OVERALL RESULT:</td>
+        <td colspan="5">
+          <div class="overall-cell" id="overall-group">
+            <button class="overall-btn approved" data-val="approved" type="button">APPROVED</button>
+            <button class="overall-btn changes" data-val="changes" type="button">CHANGES REQUIRED</button>
+          </div>
+        </td>
+      </tr>
+      <tr class="remarks-row pwc-comment-row" id="pwc-comment-row" style="display:none;">
+        <td class="info-label">COMMENTS:</td>
+        <td colspan="5"><textarea id="pwc-comments" placeholder="Explain the changes required..."></textarea></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="dev-share-panel" id="dev-share-panel">
+    <p class="dev-share-note">Developer: fill in the Artifactory Link, Pull Request ID, and Requirement ID above (all required), set the file name, and confirm this page's own public URL below. Then generate a link to send to the reviewer.</p>
+    <div class="dev-share-row">
+      <label class="dev-share-label" for="page-url-dev">This page's URL:</label>
+      <input type="text" id="page-url-dev" class="info-input dev-share-link" placeholder="Paste this checklist page's own URL here" value="https://meva-autopilots-reviewer-checklist.netlify.app">
+    </div>
+    <div class="dev-share-row">
+      <label class="dev-share-label" for="export-filename-dev">Excel file name:</label>
+      <input type="text" id="export-filename-dev" class="info-input" placeholder="Reviewer_Checklist" value="Reviewer_Checklist">
+    </div>
+    <div class="dev-share-row">
+      <button type="button" id="generate-link-btn" class="add-reviewer-btn">Generate reviewer link</button>
+      <input type="text" id="generated-link" class="info-input dev-share-link" readonly placeholder="Your shareable link will appear here">
+      <button type="button" id="copy-link-btn" class="add-reviewer-btn">Copy</button>
+    </div>
+  </div>
+
+  <div class="export-bar">
+    <input type="text" id="export-filename" class="info-input export-filename-input locked-field" readonly value="Reviewer_Checklist">
+    <button type="button" id="save-pdf-btn" class="export-btn">Save as PDF</button>
+  </div>
+
+  <div class="footer-note">Check Pass / Fail / N/A to set a row's status (click again to clear). Only the Comments field and the summary fields below are editable.</div>
+</div>
+
+<script>
+  // Build status buttons for each checklist row
+  document.querySelectorAll('tbody tr[data-row-id]').forEach(row => {
+    const statusCell = row.querySelector('.col-status');
+    const commentsCell = row.querySelector('.col-comments');
+    const rowId = row.getAttribute('data-row-id');
+
+    const checksGroup = document.createElement('div');
+    checksGroup.className = 'status-checks';
+
+    const checkboxes = [];
+
+    ['pass','fail','na'].forEach(kind => {
+      const label = document.createElement('label');
+      label.className = 'status-check ' + kind;
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.dataset.value = kind;
+      input.setAttribute('aria-label', (kind === 'na' ? 'N/A' : kind.charAt(0).toUpperCase() + kind.slice(1)) + ' status for ' + rowId);
+
+      const box = document.createElement('span');
+      box.className = 'check-box';
+
+      const text = document.createElement('span');
+      text.className = 'check-label';
+      text.textContent = kind === 'na' ? 'N/A' : kind.charAt(0).toUpperCase() + kind.slice(1);
+
+      label.appendChild(input);
+      label.appendChild(box);
+      label.appendChild(text);
+      checksGroup.appendChild(label);
+      checkboxes.push(input);
+
+      input.addEventListener('change', () => {
+        if (input.checked){
+          checkboxes.forEach(cb => { if (cb !== input) cb.checked = false; });
+        }
+      });
+    });
+
+    statusCell.appendChild(checksGroup);
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'comments-input';
+    textarea.placeholder = 'Add comment...';
+    textarea.setAttribute('aria-label', 'Comments for ' + rowId);
+    commentsCell.appendChild(textarea);
+  });
+
+  // Overall result buttons (single-select)
+  const overallGroup = document.getElementById('overall-group');
+</script>
+
+<script>
+  // Multiple reviewers: add / remove reviewer input rows
+  const reviewersContainer = document.getElementById('reviewers-container');
+  const addReviewerBtn = document.getElementById('add-reviewer-btn');
+
+  function createReviewerRow(){
+    const row = document.createElement('div');
+    row.className = 'reviewer-row';
+
+    const input = document.createElement('input');
+    input.type = 'email';
+    input.className = 'info-input reviewer-input';
+    input.placeholder = 'Enter email';
+    row.appendChild(input);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-reviewer-btn';
+    removeBtn.textContent = '\u2715';
+    removeBtn.setAttribute('aria-label', 'Remove reviewer');
+    removeBtn.addEventListener('click', () => {
+      row.remove();
+    });
+    row.appendChild(removeBtn);
+
+    return row;
+  }
+
+  addReviewerBtn.addEventListener('click', () => {
+    reviewersContainer.appendChild(createReviewerRow());
+  });
+</script>
+
+<script>
+  // Developer -> reviewer handoff: pre-fill and lock Artifactory Link / PR ID / Requirement ID / File Name via URL params
+  const artifactoryField = document.getElementById('artifactorylink');
+  const prField = document.getElementById('pullrequestid');
+  const reqIdField = document.getElementById('requirementid');
+  const filenameField = document.getElementById('export-filename');
+  const filenameDevField = document.getElementById('export-filename-dev');
+  const devPanel = document.getElementById('dev-share-panel');
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const hasArtifactory = urlParams.has('artifactory');
+  const hasPr = urlParams.has('pr');
+  const hasReqId = urlParams.has('reqid');
+  const hasFilename = urlParams.has('filename');
+
+  if (hasArtifactory || hasPr || hasReqId || hasFilename){
+    if (hasArtifactory) artifactoryField.value = urlParams.get('artifactory');
+    if (hasPr) prField.value = urlParams.get('pr');
+    if (hasReqId) reqIdField.value = urlParams.get('reqid');
+    if (hasFilename) filenameField.value = urlParams.get('filename');
+
+    artifactoryField.readOnly = true;
+    prField.readOnly = true;
+    reqIdField.readOnly = true;
+    artifactoryField.classList.add('locked-field');
+    prField.classList.add('locked-field');
+    reqIdField.classList.add('locked-field');
+    devPanel.style.display = 'none';
+  } else {
+    // Developer mode (no reviewer link generated yet): lock everything except
+    // Artifactory Link, Pull Request ID, Requirement ID, and the file name.
+    document.querySelectorAll('.status-check input, .comments-input').forEach(el => el.disabled = true);
+    document.querySelectorAll('.reviewer-input').forEach(el => el.disabled = true);
+    document.getElementById('add-reviewer-btn').disabled = true;
+    document.querySelectorAll('.remove-reviewer-btn').forEach(el => el.disabled = true);
+    document.getElementById('reviewdate').disabled = true;
+    document.querySelectorAll('#overall-group .overall-btn').forEach(el => el.disabled = true);
+    document.getElementById('pwc-comments').disabled = true;
+    document.querySelector('.export-bar').style.display = 'none';
+  }
+
+  document.getElementById('generate-link-btn').addEventListener('click', () => {
+    const pageUrlInput = document.getElementById('page-url-dev');
+    let base = pageUrlInput.value.trim();
+
+    if (!base){
+      alert('Please paste this page\'s own URL (copy it from your browser\'s address bar) into the "This page\'s URL" field first, then click Generate reviewer link again.');
+      pageUrlInput.focus();
+      return;
+    }
+
+    // Require the developer to fill in Artifactory Link, PR ID, and Requirement ID
+    // before a reviewer link can be generated.
+    const missing = [];
+    if (!artifactoryField.value.trim()) missing.push('Artifactory Link');
+    if (!prField.value.trim()) missing.push('Pull Request ID');
+    if (!reqIdField.value.trim()) missing.push('Requirement ID');
+    if (missing.length){
+      alert('Please fill in the following before generating a reviewer link:\n\n- ' + missing.join('\n- '));
+      return;
+    }
+
+    // Strip any existing query string the developer may have pasted by mistake
+    base = base.split('?')[0].split('#')[0];
+
+    const params = new URLSearchParams();
+    params.set('artifactory', artifactoryField.value.trim());
+    params.set('pr', prField.value.trim());
+    params.set('reqid', reqIdField.value.trim());
+    const chosenFilename = filenameDevField.value.trim() || 'Reviewer_Checklist';
+    params.set('filename', chosenFilename);
+    const link = base + '?' + params.toString();
+    document.getElementById('generated-link').value = link;
+  });
+
+  document.getElementById('copy-link-btn').addEventListener('click', () => {
+    const linkInput = document.getElementById('generated-link');
+    if (!linkInput.value) return;
+    linkInput.select();
+    linkInput.setSelectionRange(0, 99999);
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(linkInput.value).catch(() => document.execCommand('copy'));
+    } else {
+      document.execCommand('copy');
+    }
+  });
+</script>
+
+<script>
+  const pwcRow = document.getElementById('pwc-comment-row');
+  overallGroup.querySelectorAll('.overall-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      overallGroup.querySelectorAll('.overall-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Show the extra comment box only when "Changes Required" is selected
+      pwcRow.style.display = (btn.dataset.val === 'changes') ? '' : 'none';
+    });
+  });
+
+  document.getElementById('save-pdf-btn').addEventListener('click', () => {
+    let filename = document.getElementById('export-filename').value.trim() || 'Reviewer_Checklist';
+    filename = filename.replace(/[\\/:*?"<>|]/g, '').trim() || 'Reviewer_Checklist';
+
+    // Chrome/Edge use the document title to suggest the PDF's file name
+    const originalTitle = document.title;
+    document.title = filename;
+
+    window.print();
+
+    // Restore the tab's title once the print dialog closes
+    setTimeout(() => { document.title = originalTitle; }, 1000);
+  });
+</script>
+
+</body>
+</html>
