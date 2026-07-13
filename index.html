@@ -151,6 +151,12 @@
   .status-check.mini .check-label{
     display:none;
   }
+  .status-check.mini .check-box::after{
+    opacity:0.32;
+  }
+  .status-check.mini input:checked ~ .check-box::after{
+    opacity:1;
+  }
   table{
     width:100%;
     border-collapse:collapse;
@@ -487,7 +493,7 @@
     .status-check{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .status-check:not(:has(input:checked)){display:none !important;}
     .comments-input, .info-input, .remarks-row textarea{border:1px solid #999 !important;background:#fff !important;}
-    table, .wrap{page-break-inside:avoid;}
+    tbody tr{page-break-inside:avoid;}
 
     /* Hide comment boxes (and their "Comments:" label) when left empty */
     .comments-input:placeholder-shown{display:none !important;}
