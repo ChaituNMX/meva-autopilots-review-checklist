@@ -66,14 +66,90 @@
     background:var(--section-green);
     color:#26401e;
   }
-  .subgroup-row td{
-    background:#fdf3ea;
+  .section-banner-row td{
+    padding:0;
+    border-left:none;
+    border-right:none;
+  }
+  .section-banner-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:#eef1f5;
+    border-top:2px solid var(--navy);
+    border-bottom:2px solid var(--navy);
+    padding:8px 14px;
+  }
+  .section-banner-label{
     font-weight:700;
-    font-size:12px;
+    font-size:13px;
     letter-spacing:0.4px;
-    color:#8a4a10;
-    padding:6px 10px;
-    border-left:4px solid #c0722c;
+    color:var(--navy);
+  }
+  .section-na-btn{
+    border:1.5px solid var(--grey-border);
+    background:#fff;
+    border-radius:5px;
+    padding:3px 12px;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+    color:#333;
+    flex-shrink:0;
+  }
+  .section-na-btn:hover{
+    border-color:#8a93a6;
+  }
+  .section-na-btn.active{
+    background:var(--na-bg);
+    border-color:var(--na-bg);
+    color:#fff;
+  }
+
+  .subitem-list{
+    display:none;
+    margin-top:10px;
+    padding-top:8px;
+    border-top:1px dashed var(--grey-border);
+  }
+  .subitem-list.expanded{
+    display:block;
+  }
+  .subitem-line{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:3px 0;
+  }
+  .subitem-text{
+    flex:1;
+    font-size:13px;
+    line-height:1.4;
+    color:#333;
+  }
+  .subitem-letter{
+    font-weight:700;
+    color:var(--navy);
+    margin-right:3px;
+  }
+  .status-checks.mini{
+    gap:5px;
+    flex-shrink:0;
+  }
+  .status-check.mini{
+    gap:0;
+  }
+  .status-check.mini .check-box{
+    width:17px;
+    height:17px;
+    border-width:1.5px;
+    border-radius:4px;
+    font-size:11px;
+  }
+  .status-check.mini .check-label{
+    display:none;
   }
   table{
     width:100%;
@@ -407,7 +483,7 @@
   @media print{
     body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .wrap{box-shadow:none;border:none;max-width:100%;}
-    .export-bar, .add-reviewer-btn, .remove-reviewer-btn, .footer-note, .dev-share-panel{display:none !important;}
+    .export-bar, .add-reviewer-btn, .remove-reviewer-btn, .footer-note, .dev-share-panel, .section-na-btn{display:none !important;}
     .status-check{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .status-check:not(:has(input:checked)){display:none !important;}
     .comments-input, .info-input, .remarks-row textarea{border:1px solid #999 !important;background:#fff !important;}
@@ -443,46 +519,146 @@
       </tr>
     </thead>
     <tbody id="section1-body">
-      <tr data-row-id="DC-01" data-number="1">
-        <td class="col-item readonly-cell"><span class="item-number">1.</span> Verify that all compiler, build, and static analysis warnings have been <strong>resolved, resulting in zero outstanding warnings</strong>. If any warning cannot be resolved, ensure that an <strong>appropriate technical justification is documented in the source code and approved in accordance with the project coding guidelines</strong>.</td>
+
+      <tr class="section-banner-row">
+        <td colspan="3">
+          <div class="section-banner-inner">
+            <span class="section-banner-label">REQUIREMENTS</span>
+            <button type="button" class="section-na-btn" data-section="requirements">N/A</button>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-row-id="REQ-01" data-section="requirements" data-number="1">
+        <td class="col-item readonly-cell">
+          <span class="item-number">1.</span> Verify that all configured signal boundary values (minimum/maximum) match the approved requirements.
+          <div class="subitem-list" data-trigger="pass">
+            <div class="subitem-line">
+              <span class="subitem-text"><span class="subitem-letter">a.</span> Out-of-Range values are handled according to Requirement <strong>x40000002E4AA176</strong> (Range Check &rarr; Signal set to <strong>NA</strong>).</span>
+              <div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div>
+            </div>
+          </div>
+        </td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="DC-02" data-number="2">
-        <td class="col-item readonly-cell"><span class="item-number">2.</span> Verify that <strong>unit test (UT) coverage meets the required project coverage target</strong>, and adequately covers all implemented requirements, boundary conditions, and error handling scenarios.</td>
+
+      <tr data-row-id="REQ-02" data-section="requirements" data-number="2">
+        <td class="col-item readonly-cell">
+          <span class="item-number">2.</span> Verify that all implicit and explicit data type conversions are safe.
+          <div class="subitem-list" data-trigger="pass">
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Free from compiler/static analysis warnings</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Truncation</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Overflow</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">d.</span> Precision loss</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">e.</span> Unintended sign conversion</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+          </div>
+        </td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="DC-03" data-number="3">
-        <td class="col-item readonly-cell"><span class="item-number">3.</span> Verify that <strong>Software-in-the-Loop (SIL) and/or Hardware-in-the-Loop (HIL) test reports</strong>, where applicable, have been reviewed, all planned test cases have passed, and any failures or deviations are appropriately documented and resolved.</td>
+
+      <tr data-row-id="REQ-03" data-section="requirements" data-number="3">
+        <td class="col-item readonly-cell"><span class="item-number">3.</span> Verify that the Signal Alive timeout is configured to the required value of <strong>30 seconds</strong> during signal/port configuration.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="DC-04" data-number="4">
-        <td class="col-item readonly-cell"><span class="item-number">4.</span> Verify that <strong>sanity testing</strong> has been completed successfully, the results have been reviewed, and no unresolved issues remain that could impact the implemented functionality.</td>
+
+      <tr data-row-id="REQ-04" data-section="requirements" data-number="4">
+        <td class="col-item readonly-cell"><span class="item-number">4.</span> Verify that the configured signal range in the SE tool matches the approved requirement/specification during the technical review.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="SC-01" data-number="5">
-        <td class="col-item readonly-cell"><span class="item-number">5.</span> Verify that all configured signal boundary values (minimum/maximum) match the approved requirement and that out-of-range values are handled according to Requirement <strong>x40000002E4AA176</strong> (Range Check &rarr; Signal set to <strong>NA</strong>).</td>
+
+      <tr class="section-banner-row">
+        <td colspan="3">
+          <div class="section-banner-inner">
+            <span class="section-banner-label">VERIFICATION</span>
+            <button type="button" class="section-na-btn" data-section="verification">N/A</button>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-row-id="VER-05" data-section="verification" data-number="5">
+        <td class="col-item readonly-cell"><span class="item-number">5.</span> <strong>Software-in-the-Loop (SIL) Testing</strong><br>Applicable SIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="SC-02" data-number="6">
-        <td class="col-item readonly-cell"><span class="item-number">6.</span> Verify that all implicit and explicit data type conversions are safe, compliant with the project coding guidelines, and free from compiler/static analysis warnings, truncation, overflow, precision loss, and unintended sign conversion.</td>
+
+      <tr data-row-id="VER-06" data-section="verification" data-number="6">
+        <td class="col-item readonly-cell"><span class="item-number">6.</span> <strong>Hardware-in-the-Loop (HIL) Testing</strong><br>Applicable HIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="SC-03" data-number="7">
-        <td class="col-item readonly-cell"><span class="item-number">7.</span> Verify that the Signal Alive timeout is configured to the required value of <strong>30 seconds</strong> during signal/port configuration, in accordance with the approved requirement/specification, to prevent retention of stale or previous output signal values due to missing or incorrect timeout configuration.</td>
+
+      <tr data-row-id="VER-07" data-section="verification" data-number="7">
+        <td class="col-item readonly-cell"><span class="item-number">7.</span> <strong>Integrated Testing</strong><br>Applicable integrated tests have passed.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
-      <tr data-row-id="SL-01" data-number="8">
-        <td class="col-item readonly-cell"><span class="item-number">8.</span> Verify that all configured signal data types match the approved requirement/specification and are compatible with the associated interfaces and CRC/E2E mechanisms to prevent signal transformation errors and unexpected functional behavior.</td>
+
+      <tr data-row-id="VER-08" data-section="verification" data-number="8">
+        <td class="col-item readonly-cell"><span class="item-number">8.</span> <strong>Embedded Testing</strong><br>Applicable embedded tests have passed.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
+
+      <tr data-row-id="VER-09" data-section="verification" data-number="9">
+        <td class="col-item readonly-cell"><span class="item-number">9.</span> <strong>Sanity Testing</strong><br>Sanity testing has been completed successfully and the results have been reviewed with no issues remaining.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+
+      <tr class="section-banner-row">
+        <td colspan="3">
+          <div class="section-banner-inner">
+            <span class="section-banner-label">IMPLEMENTATION</span>
+            <button type="button" class="section-na-btn" data-section="implementation">N/A</button>
+          </div>
+        </td>
+      </tr>
+
+      <tr data-row-id="IMP-10" data-section="implementation" data-number="10">
+        <td class="col-item readonly-cell">
+          <span class="item-number">10.</span> Verify that all compiler, build, and static analysis warnings have been resolved.
+          <div class="subitem-list" data-trigger="fail">
+            <div class="subitem-line">
+              <span class="subitem-text"><span class="subitem-letter">a.</span> Appropriate technical justification is documented in the source code.</span>
+              <div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+
+      <tr data-row-id="IMP-11" data-section="implementation" data-number="11">
+        <td class="col-item readonly-cell">
+          <span class="item-number">11.</span> Verify that unit test (UT) coverage meets the required project coverage target.
+          <div class="subitem-list" data-trigger="pass">
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Adequately covers all implemented requirements</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Boundary conditions</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Error handling scenarios</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+          </div>
+        </td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+
+      <tr data-row-id="IMP-12" data-section="implementation" data-number="12">
+        <td class="col-item readonly-cell">
+          <span class="item-number">12.</span> Verify that all configured signal data match the approved requirement/specification.
+          <div class="subitem-list" data-trigger="pass">
+            <div class="subitem-line">
+              <span class="subitem-text"><span class="subitem-letter">a.</span> Compatible with the associated interfaces and CRC/E2E mechanisms to prevent signal transformation errors and unexpected functional behavior.</span>
+              <div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div>
+            </div>
+          </div>
+        </td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+
     </tbody>
   </table>
 
@@ -614,6 +790,71 @@
 </script>
 
 <script>
+  // Wire up the small inline Yes/No sub-point checkboxes (mutual-exclusion + deselect)
+  document.querySelectorAll('.status-checks.mini').forEach(group => {
+    const inputs = group.querySelectorAll('input[type="checkbox"]');
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        if (input.checked){
+          inputs.forEach(cb => { if (cb !== input) cb.checked = false; });
+        }
+      });
+    });
+  });
+
+  // Reveal a row's sub-point list only once its main status matches the required trigger
+  // (Pass for items 1, 2, 11, 12; Fail for item 10's justification sub-point)
+  document.querySelectorAll('tbody tr[data-row-id]').forEach(row => {
+    const subitemList = row.querySelector('.subitem-list');
+    if (!subitemList) return;
+
+    const trigger = subitemList.dataset.trigger || 'pass';
+    const mainInputs = row.querySelectorAll('.col-status > .status-checks > .status-check input[type="checkbox"]');
+
+    function syncVisibility(){
+      const triggerInput = row.querySelector('.col-status > .status-checks > .status-check.' + trigger + ' input');
+      const shouldShow = !!(triggerInput && triggerInput.checked);
+      subitemList.classList.toggle('expanded', shouldShow);
+      if (!shouldShow){
+        subitemList.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+      }
+    }
+
+    mainInputs.forEach(input => input.addEventListener('change', syncVisibility));
+    syncVisibility();
+  });
+
+  // Section-level N/A toggle: marks every item in a section as N/A (or clears sub-point
+  // Yes/No selections) and locks the section until toggled off again
+  document.querySelectorAll('.section-na-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.dataset.section;
+      const nowActive = !btn.classList.contains('active');
+      btn.classList.toggle('active', nowActive);
+
+      document.querySelectorAll('tr[data-section="' + section + '"][data-row-id]').forEach(row => {
+        const mainInputs = row.querySelectorAll('.col-status > .status-checks > .status-check input[type="checkbox"]');
+        const naInput = row.querySelector('.col-status > .status-checks > .status-check.na input');
+
+        if (nowActive){
+          mainInputs.forEach(cb => { cb.checked = false; });
+          if (naInput) naInput.checked = true;
+          mainInputs.forEach(cb => { cb.disabled = true; });
+          const subitemList = row.querySelector('.subitem-list');
+          if (subitemList){
+            subitemList.classList.remove('expanded');
+            subitemList.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+          }
+        } else {
+          mainInputs.forEach(cb => { cb.disabled = false; cb.checked = false; });
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+
   // Multiple reviewers: add / remove reviewer input rows
   const reviewersContainer = document.getElementById('reviewers-container');
   const addReviewerBtn = document.getElementById('add-reviewer-btn');
@@ -678,6 +919,7 @@
     // Developer mode (no reviewer link generated yet): lock everything except
     // Artifactory Link, Pull Request ID, Requirement ID, and the file name.
     document.querySelectorAll('.status-check input, .comments-input').forEach(el => el.disabled = true);
+    document.querySelectorAll('.section-na-btn').forEach(el => el.disabled = true);
     document.querySelectorAll('.reviewer-input').forEach(el => el.disabled = true);
     document.getElementById('add-reviewer-btn').disabled = true;
     document.querySelectorAll('.remove-reviewer-btn').forEach(el => el.disabled = true);
