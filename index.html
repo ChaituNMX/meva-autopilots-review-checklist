@@ -537,7 +537,7 @@
 
       <tr data-row-id="REQ-01" data-section="requirements" data-number="1">
         <td class="col-item readonly-cell">
-          <span class="item-number">1.</span> Verify that all configured signal boundary values (minimum/maximum) match the approved requirements.
+          <span class="item-number">1.</span> Verify that all configured signal boundary values (minimum/maximum) match the approved requirements/specification in SE Tool.
           <div class="subitem-list" data-trigger="pass">
             <div class="subitem-line">
               <span class="subitem-text"><span class="subitem-letter">a.</span> Out-of-Range values are handled according to Requirement <strong>x40000002E4AA176</strong> (Range Check &rarr; Signal set to <strong>NA</strong>).</span>
@@ -545,33 +545,6 @@
             </div>
           </div>
         </td>
-        <td class="col-status"></td>
-        <td class="col-comments"></td>
-      </tr>
-
-      <tr data-row-id="REQ-02" data-section="requirements" data-number="2">
-        <td class="col-item readonly-cell">
-          <span class="item-number">2.</span> Verify that all implicit and explicit data type conversions are safe.
-          <div class="subitem-list" data-trigger="pass">
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Free from compiler/static analysis warnings</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Truncation</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Overflow</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">d.</span> Precision loss</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">e.</span> Unintended sign conversion</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-          </div>
-        </td>
-        <td class="col-status"></td>
-        <td class="col-comments"></td>
-      </tr>
-
-      <tr data-row-id="REQ-03" data-section="requirements" data-number="3">
-        <td class="col-item readonly-cell"><span class="item-number">3.</span> Verify that the Signal Alive timeout is configured to the required value of <strong>30 seconds</strong> during signal/port configuration.</td>
-        <td class="col-status"></td>
-        <td class="col-comments"></td>
-      </tr>
-
-      <tr data-row-id="REQ-04" data-section="requirements" data-number="4">
-        <td class="col-item readonly-cell"><span class="item-number">4.</span> Verify that the configured signal range in the SE tool matches the approved requirement/specification during the technical review.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
@@ -585,32 +558,33 @@
         </td>
       </tr>
 
-      <tr data-row-id="VER-05" data-section="verification" data-number="5">
-        <td class="col-item readonly-cell"><span class="item-number">5.</span> <strong>Software-in-the-Loop (SIL) Testing</strong><br>Applicable SIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
+      <tr data-row-id="VER-05" data-section="verification" data-number="2">
+        <td class="col-item readonly-cell"><span class="item-number">2.</span> <strong>Software-in-the-Loop (SIL) Testing</strong><br>Applicable SIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
 
-      <tr data-row-id="VER-06" data-section="verification" data-number="6">
-        <td class="col-item readonly-cell"><span class="item-number">6.</span> <strong>Hardware-in-the-Loop (HIL) Testing</strong><br>Applicable HIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
+      <tr data-row-id="VER-06" data-section="verification" data-number="3">
+        <td class="col-item readonly-cell"><span class="item-number">3.</span> <strong>Hardware-in-the-Loop (HIL) Testing</strong><br>Applicable HIL tests have passed and any failures or deviations are appropriately documented and resolved.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
 
-      <tr data-row-id="VER-07" data-section="verification" data-number="7">
-        <td class="col-item readonly-cell"><span class="item-number">7.</span> <strong>Integrated Testing</strong><br>Applicable integrated tests have passed.</td>
+      <tr data-row-id="VER-09" data-section="verification" data-number="4">
+        <td class="col-item readonly-cell"><span class="item-number">4.</span> <strong>Sanity Testing</strong><br>Sanity testing has been completed successfully and the results have been reviewed with no issues remaining.</td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
 
-      <tr data-row-id="VER-08" data-section="verification" data-number="8">
-        <td class="col-item readonly-cell"><span class="item-number">8.</span> <strong>Embedded Testing</strong><br>Applicable embedded tests have passed.</td>
-        <td class="col-status"></td>
-        <td class="col-comments"></td>
-      </tr>
-
-      <tr data-row-id="VER-09" data-section="verification" data-number="9">
-        <td class="col-item readonly-cell"><span class="item-number">9.</span> <strong>Sanity Testing</strong><br>Sanity testing has been completed successfully and the results have been reviewed with no issues remaining.</td>
+      <tr data-row-id="IMP-11" data-section="verification" data-number="5">
+        <td class="col-item readonly-cell">
+          <span class="item-number">5.</span> Verify that unit test (UT) coverage meets the required project coverage target.
+          <div class="subitem-list" data-trigger="pass">
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Adequately covers all implemented requirements</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Boundary conditions</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Error handling scenarios</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+          </div>
+        </td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
@@ -624,9 +598,9 @@
         </td>
       </tr>
 
-      <tr data-row-id="IMP-10" data-section="implementation" data-number="10">
+      <tr data-row-id="IMP-10" data-section="implementation" data-number="6">
         <td class="col-item readonly-cell">
-          <span class="item-number">10.</span> Verify that all compiler, build, and static analysis warnings have been resolved.
+          <span class="item-number">6.</span> Verify that all compiler, build, and static analysis warnings have been resolved.
           <div class="subitem-list" data-trigger="fail">
             <div class="subitem-line">
               <span class="subitem-text"><span class="subitem-letter">a.</span> Appropriate technical justification is documented in the source code.</span>
@@ -638,22 +612,30 @@
         <td class="col-comments"></td>
       </tr>
 
-      <tr data-row-id="IMP-11" data-section="implementation" data-number="11">
+      <tr data-row-id="REQ-02" data-section="implementation" data-number="7">
         <td class="col-item readonly-cell">
-          <span class="item-number">11.</span> Verify that unit test (UT) coverage meets the required project coverage target.
+          <span class="item-number">7.</span> Verify that all implicit and explicit data type conversions are safe.
           <div class="subitem-list" data-trigger="pass">
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Adequately covers all implemented requirements</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Boundary conditions</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
-            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Error handling scenarios</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">a.</span> Free from compiler/static analysis warnings</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">b.</span> Truncation</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">c.</span> Overflow</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">d.</span> Precision loss</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
+            <div class="subitem-line"><span class="subitem-text"><span class="subitem-letter">e.</span> Unintended sign conversion</span><div class="status-checks mini"><label class="status-check pass mini"><input type="checkbox" data-value="yes"><span class="check-box"></span><span class="check-label">Yes</span></label><label class="status-check fail mini"><input type="checkbox" data-value="no"><span class="check-box"></span><span class="check-label">No</span></label></div></div>
           </div>
         </td>
         <td class="col-status"></td>
         <td class="col-comments"></td>
       </tr>
 
-      <tr data-row-id="IMP-12" data-section="implementation" data-number="12">
+      <tr data-row-id="REQ-03" data-section="implementation" data-number="8">
+        <td class="col-item readonly-cell"><span class="item-number">8.</span> Verify that the Signal Alive timeout is configured to the required value of <strong>30 seconds</strong> during signal/port configuration.</td>
+        <td class="col-status"></td>
+        <td class="col-comments"></td>
+      </tr>
+
+      <tr data-row-id="IMP-12" data-section="implementation" data-number="9">
         <td class="col-item readonly-cell">
-          <span class="item-number">12.</span> Verify that all configured signal data match the approved requirement/specification.
+          <span class="item-number">9.</span> Verify that all configured signal data match the approved requirement/specification.
           <div class="subitem-list" data-trigger="pass">
             <div class="subitem-line">
               <span class="subitem-text"><span class="subitem-letter">a.</span> Compatible with the associated interfaces and CRC/E2E mechanisms to prevent signal transformation errors and unexpected functional behavior.</span>
